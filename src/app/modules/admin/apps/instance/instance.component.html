@@ -1,0 +1,115 @@
+<div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
+
+    <!-- Header -->
+    <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 border-b">
+        <!-- Loader -->
+        <div
+            class="absolute inset-x-0 bottom-0"
+            *ngIf="isLoading">
+            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+        </div>
+        <!-- Title -->
+        <div class="text-4xl font-extrabold tracking-tight">Instances</div>
+        <!-- Actions -->
+        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <!-- Search -->
+            <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64">
+                <mat-icon
+                    class="icon-size-5"
+                    matPrefix
+                    [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                <input
+                    matInput
+                    [formControl]="searchInputControl"
+                    [autocomplete]="'off'"
+                    [placeholder]="'Search instance'">
+            </mat-form-field>
+            <!-- Add module button -->
+            <button
+                class="ml-4"
+                mat-flat-button
+                [color]="'primary'"
+                (click)="openDialog(null)">
+                <mat-icon [svgIcon]="'file_download'"></mat-icon>
+                <span class="ml-2 mr-1">Export</span>
+            </button>
+        </div>
+    </div>
+
+      <!-- Main -->
+      <div fuseScrollbar [fuseScrollbarOptions]="{wheelPropagation: false, suppressScrollX: true}" class="flex-auto p-6 sm:p-10">
+
+        <div class="py-8 px-24 h-400 min-h-400 max-h-400 border-2 border-dashed border-gray-300 rounded-2xl">
+            
+            <!-- Instances -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8 md:mt-16">
+                
+                <!-- New Instance -->
+                <div (click)="openDialog(null)" class="flex flex-col items-center justify-center w-56 rounded-lg cursor-pointer border-2 border-gray-300 border-dashed hover:bg-hover transition-colors duration-150 ease-in-out">
+                    <mat-icon
+                        class="icon-size-12 text-hint"
+                        [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                </div>
+
+                <ng-container *ngIf="(instances$ | async) as instances">
+                    <ng-container *ngFor="let instance of instances; trackBy: trackByFn">
+                        <a
+                            class="flex flex-col items-start w-56 p-6 shadow bg-card rounded-lg hover:shadow-xl transition-shadow duration-150 ease-in-out"
+                            (click)="openDialog(instance);">
+                            <div class="flex w-full justify-between">
+                                <div class="flex items-center justify-center p-4 rounded-full bg-primary-50 text-primary-700 dark:bg-primary dark:text-on-primary">
+                                    <mat-icon
+                                        class="text-current"
+                                        [svgIcon]="'heroicons_outline:database'"></mat-icon>
+                                        
+                                </div>
+                                <div class="flex justify-center items-center">
+                                    <div
+                                        class="py-0.5 mr-3 px-3 rounded-full text-sm font-semibold"
+                                        [ngClass]="{'text-blue-800 bg-blue-100 dark:text-blue-50 dark:bg-blue-500': instance.database_type === 'mysql',
+                                                    'text-green-800 bg-green-100 dark:text-green-50 dark:bg-green-500': instance.database_type === 'postgres',
+                                                    'text-pink-800 bg-pink-100 dark:text-pink-50 dark:bg-pink-500': instance.database_type === 'mssql',
+                                                    'text-amber-800 bg-amber-100 dark:text-amber-50 dark:bg-amber-500': instance.database_type === 'mariadb',
+                                                    'text-purple-800 bg-amber-100 dark:text-amber-50 dark:bg-purple-500': instance.database_type === 'sqlite'}">
+                                        {{instance.database_type}}
+                                    </div>
+                                    <!-- Completed at least once -->
+                                    <div class="flex items-center">
+                                            <mat-icon *ngIf="instance.enabled"
+                                                class="icon-size-5 text-green-600"
+                                                [svgIcon]="'heroicons_solid:badge-check'"
+                                                [matTooltip]="'This instance is enabled'"></mat-icon>
+
+                                            <mat-icon *ngIf="!instance.enabled"
+                                                class="icon-size-5 text-red-600"
+                                                [svgIcon]="'heroicons_outline:x-circle'"
+                                                [matTooltip]="'This instance is not enabled'"></mat-icon>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <!-- Title -->
+                            <div class="mt-5 text-lg font-medium leading-5">{{instance.name}}</div>
+                            <!-- Description -->
+                            <div class="mt-0.5 line-clamp-2 text-secondary"><b>Server:</b> {{instance.server}}</div>
+
+                            <div class="mt-0.5 line-clamp-2 text-secondary"><b>Port:</b> {{instance.port}}</div>
+                            <!-- Members -->
+                            <div class="w-12 h-1 mt-6 border-t-2"></div>
+                            <!-- Last activity -->
+                            <div class="flex items-center mt-4 text-md font-md">
+                                <div class="text-secondary">Created:</div>
+                                <div class="ml-1">{{formatDateAsRelative(instance.createdAt)}}</div>
+                            </div>
+                        </a>
+                    </ng-container>
+                </ng-container>
+            
+            </div>
+
+        </div>
+        
+    </div>
+
+</div>
+

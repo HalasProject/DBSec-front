@@ -1,11 +1,11 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
-    selector     : 'example',
-    templateUrl  : './example.component.html',
+    selector     : 'history',
+    templateUrl  : './history.component.html',
     encapsulation: ViewEncapsulation.None
 })
-export class ExampleComponent
+export class HistoryComponent
 {
     /**
      * Constructor

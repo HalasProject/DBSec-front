@@ -1,0 +1,325 @@
+<div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
+
+    <!-- Header -->
+    <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 border-b">
+        <!-- Loader -->
+        <div
+            class="absolute inset-x-0 bottom-0"
+            *ngIf="isLoading">
+            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+        </div>
+        <!-- Title -->
+        <div class="text-4xl font-extrabold tracking-tight">Modules</div>
+        <!-- Actions -->
+        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <!-- Search -->
+            <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64">
+                <mat-icon
+                    class="icon-size-5"
+                    matPrefix
+                    [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                <input
+                    matInput
+                    [formControl]="searchInputControl"
+                    [autocomplete]="'off'"
+                    [placeholder]="'Search modules'">
+            </mat-form-field>
+            <!-- Add module button -->
+            <button
+                class="ml-4"
+                mat-flat-button
+                [color]="'primary'"
+                (click)="createModule()">
+                <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                <span class="ml-2 mr-1">Add</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="flex flex-auto overflow-hidden">
+
+        <!-- Modules list -->
+        <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
+            <ng-container *ngIf="(modules$ | async) as modules">
+                <ng-container *ngIf="modules.length > 0; else noModules">
+                    <div class="grid">
+                        <!-- Header -->
+                        <div
+                            class="inventory-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                            matSort
+                            matSortDisableClear>
+                            <div></div>
+                            <div
+                                class="hidden md:block"
+                                [mat-sort-header]="'_id'">
+                                UUID
+                            </div>
+                            <div [mat-sort-header]="'title'">Title</div>
+                            <div [mat-sort-header]="'category'">Category</div>
+                          
+                            <div
+                                class="hidden sm:block"
+                                [mat-sort-header]="'database?.type'">
+                                Database
+                            </div>
+                            <div
+                                class="hidden lg:block"
+                                [mat-sort-header]="'enabled'">
+                                Active
+                            </div>
+                            <div class="hidden sm:block">Details</div>
+                        </div>
+                        <!-- Rows -->
+                        <ng-container *ngIf="(modules$ | async) as modules">
+                            <ng-container *ngFor="let module of modules; trackBy: trackByFn">
+                                <div class="inventory-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
+
+
+                                    <!-- Image -->
+                                    <div class="flex items-center">
+                                        <div class="relative flex flex-0 items-center justify-center w-12 h-12 mr-6 rounded overflow-hidden border">
+                                            <img
+                                                *ngIf="module?.database?.type"
+                                                class="w-8"
+                                                [alt]="'module thumbnail image'"
+                                                [src]="'assets/images/databases/'+module.database.type+'.png'"
+                                                >
+                                        </div>
+                                    </div>
+
+                                    <!-- UIID -->
+                                    <div class="hidden md:block truncate">
+                                        {{module._id}}
+                                    </div>
+
+                                    <!-- Title -->
+                                    <div class="">
+                                        {{module.title}}
+                                    </div>
+
+                                     <!-- Category -->
+                                     <div class="">
+                                        {{module.category}}
+                                    </div>
+
+                                    <!-- Database -->
+                                    <div class="hidden sm:block">
+                                        {{module?.database?.type}}
+                                    </div>
+
+                                    <!-- CVE 
+                                    <div class="hidden lg:flex items-center">
+                                        <div class="min-w-4">{{module.stock}}</div>
+                                       
+                                        <div
+                                            class="flex items-end ml-2 w-1 h-4 bg-red-200 rounded overflow-hidden"
+                                            *ngIf="module.stock < 20">
+                                            <div class="flex w-full h-1/3 bg-red-600"></div>
+                                        </div>
+                                       
+                                        <div
+                                            class="flex items-end ml-2 w-1 h-4 bg-orange-200 rounded overflow-hidden"
+                                            *ngIf="module.stock >= 20 && module.stock < 30">
+                                            <div class="flex w-full h-2/4 bg-orange-400"></div>
+                                        </div>
+                                       
+                                        <div
+                                            class="flex items-end ml-2 w-1 h-4 bg-green-100 rounded overflow-hidden"
+                                            *ngIf="module.stock >= 30">
+                                            <div class="flex w-full h-full bg-green-400"></div>
+                                        </div>
+                                    </div>
+                                    -->
+
+                                    <!-- Active -->
+                                    <div class="hidden lg:block">
+                                        <ng-container *ngIf="module?.enabled">
+                                            <mat-icon
+                                                class="text-green-400 icon-size-5"
+                                                [svgIcon]="'heroicons_solid:check'"></mat-icon>
+                                        </ng-container>
+                                        <ng-container *ngIf="!module?.enabled">
+                                            <mat-icon
+                                                class="text-gray-400 icon-size-5"
+                                                [svgIcon]="'heroicons_solid:x'"></mat-icon>
+                                        </ng-container>
+                                    </div>
+
+                                    <!-- Details button -->
+                                    <div>
+                                        <button
+                                            class="min-w-10 min-h-7 h-7 px-2 leading-6"
+                                            mat-stroked-button
+                                            (click)="toggleDetails(module._id)">
+                                            <mat-icon
+                                                class="icon-size-5"
+                                                [svgIcon]="selectedModule?._id === module._id ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'"></mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                    <ng-container *ngIf="selectedModule?._id === module._id">
+                                        <ng-container *ngTemplateOutlet="rowDetailsTemplate; context: {$implicit: module}"></ng-container>
+                                    </ng-container>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+
+                    <!-- <mat-paginator
+                        class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+                        [ngClass]="{'pointer-events-none': isLoading}"
+                        [length]="pagination.length"
+                        [pageIndex]="pagination.page"
+                        [pageSize]="pagination.size"
+                        [pageSizeOptions]="[5, 10, 25, 100]"
+                        [showFirstLastButtons]="true"></mat-paginator> -->
+
+                </ng-container>
+            </ng-container>
+
+            <ng-template
+                #rowDetailsTemplate
+                let-module>
+                <div class="shadow-lg overflow-hidden">
+                    <div class="flex border-b">
+                        <!-- Selected module form -->
+                        <form
+                            class="flex flex-col w-full"
+                            [formGroup]="selectedModuleForm">
+
+                            <div class="flex flex-col sm:flex-row p-8">
+
+                                <div class="flex flex-auto flex-wrap">
+                                    <!-- Name, SKU & etc. -->
+                                    <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
+
+                                        <!-- Title -->
+                                        <mat-form-field class="w-full">
+                                            <mat-label>Title</mat-label>
+                                            <input
+                                                matInput
+                                                [formControlName]="'title'">
+                                        </mat-form-field>
+
+                                        <mat-form-field class="fuse-mat-textarea fuse-mat-no-subscript">
+                                            <mat-label>Description</mat-label>
+                                            <textarea
+                                                class="textarea"
+                                                matInput
+                                                [formControlName]="'description'"
+                                                [placeholder]="'Type your reply here'"
+                                                [rows]="6"></textarea>
+                                        </mat-form-field>
+
+                                        <div class="flex flex-col mt-8">
+                                            <span class="font-semibold mb-2">Enabled</span>
+                                            <mat-slide-toggle
+                                                [formControlName]="'enabled'"
+                                                [color]="'primary'">
+                                                {{selectedModuleForm.get('enabled').value === true ? 'On' : 'Off'}}
+                                            </mat-slide-toggle>
+                                        </div>
+                                    </div>
+
+                                    <!-- Cost, Base price, Tax & Price -->
+                                    <div class="flex flex-col w-full lg:w-1/4 sm:pl-8">
+                                        <mat-form-field class="w-full">
+                                            <mat-label>Category</mat-label>
+                                            <mat-select [formControlName]="'category'">
+                                                <ng-container *ngFor="let category of Categories">
+                                                    <mat-option [value]="category">
+                                                        {{category}}
+                                                    </mat-option>
+                                                </ng-container>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <mat-form-field formGroupName="database" class="w-full">
+                                            <mat-label>Database</mat-label>
+                                            <mat-select formControlName="type">
+                                                <ng-container *ngFor="let db of Dialect">
+                                                    <mat-option [value]="db">
+                                                        {{db}}
+                                                    </mat-option>
+                                                </ng-container>
+                                            </mat-select>
+                                        </mat-form-field>
+                   
+                                        <mat-form-field formGroupName="database" class="w-full">
+                                            <mat-label>Version</mat-label>
+                                            <span matSuffix>v</span>
+                                            <input
+                                                formControlName="version"
+                                                type="number"
+                                                matInput
+                                               >
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="flex flex-col w-full lg:w-1/4 sm:pl-8">
+
+                                        <mat-form-field class="fuse-mat-textarea fuse-mat-no-subscript">
+                                            <mat-label>SQL Request</mat-label>
+                                            <textarea
+                                                class="textarea"
+                                                matInput
+                                                [formControlName]="'sql'"
+                                                [placeholder]="'Select * FROM test'"
+                                                [rows]="11"></textarea>
+                                        </mat-form-field>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="flex items-center justify-between w-full border-t px-8 py-4">
+                                <button
+                                    class="-ml-4"
+                                    mat-button
+                                    [color]="'warn'"
+                                    (click)="deleteSelectedModule()">
+                                    Delete
+                                </button>
+                                <div class="flex items-center">
+                                    <div
+                                        class="flex items-center mr-4"
+                                        *ngIf="flashMessage">
+                                        <ng-container *ngIf="flashMessage === 'success'">
+                                            <mat-icon
+                                                class="text-green-500"
+                                                [svgIcon]="'heroicons_outline:check'"></mat-icon>
+                                            <span class="ml-2">Module updated</span>
+                                        </ng-container>
+                                        <ng-container *ngIf="flashMessage === 'error'">
+                                            <mat-icon
+                                                class="text-red-500"
+                                                [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                                            <span class="ml-2">An error occurred, try again!</span>
+                                        </ng-container>
+                                    </div>
+                                    <button
+                                        mat-flat-button
+                                        [color]="'primary'"
+                                        (click)="updateSelectedModule()">
+                                        Update
+                                    </button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </ng-template>
+
+            <ng-template #noModules>
+                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">There are no test!</div>
+            </ng-template>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,149 @@
+<div class="flex flex-col flex-auto md:w-160 md:min-w-160 -m-6">
+    <ng-container *ngIf="(instance$ | async) as instance">
+        <div class="m-4">
+           
+            <!-- Title -->
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Instance Name</mat-label>
+                <input
+                    matInput
+                    [placeholder]="'Staging DB'"
+                    [(ngModel)]="instance.name"
+                    (input)="updateInstanceDetails(instance)">
+            </mat-form-field>
+
+            <div class="flex space-x-4">
+                <!-- Server -->
+                <mat-form-field appearance="outline" class="w-2/3">
+                    <mat-label>Server</mat-label>
+                    <input
+                        matInput
+                        [placeholder]="'localhost'"
+                        [(ngModel)]="instance.server"
+                        (input)="updateInstanceDetails(instance)">
+                </mat-form-field>
+
+                <!-- Port -->
+                <mat-form-field appearance="outline" class="w-1/3">
+                    <mat-label>Port</mat-label>
+                    <input
+                        matInput
+                        type="number"
+                        [placeholder]="3306"
+                        [(ngModel)]="instance.port"
+                        (input)="updateInstanceDetails(instance)">
+                </mat-form-field>
+            </div>
+          
+          
+            <!-- Database Type -->
+            <mat-form-field  appearance="outline" class="w-full">
+                <mat-label>Database</mat-label>
+                <mat-select [(ngModel)]="instance.database_type">
+                 
+                        <mat-option *ngFor="let db of Dialect" [value]="db">
+                            {{db}}
+                        </mat-option>
+                 </mat-select>
+            </mat-form-field>
+
+             <!-- Database name -->
+             <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Database</mat-label>
+                <input
+                    matInput
+                    [placeholder]="'demo'"
+                    [(ngModel)]="instance.database"
+                    (input)="updateInstanceDetails(instance)">
+            </mat-form-field>
+           
+            <div class="flex space-x-4">
+                <!-- Privileged account -->
+                <mat-form-field appearance="outline" class="w-1/2">
+                    <mat-label>Privileged Account</mat-label>
+                    <input
+                        matInput
+                        [placeholder]="'root'"
+                        [(ngModel)]="instance.privileged_account"
+                        (input)="updateInstanceDetails(instance)">
+                </mat-form-field>
+
+                <!-- Password of privileged account -->
+                <mat-form-field appearance="outline" class="w-1/2">
+                    <mat-label>Privileged Account Password</mat-label>
+                    <input
+                        matInput
+                        type="password"
+                        [placeholder]="'root'"
+                        [(ngModel)]="instance.privileged_account_password"
+                        (input)="updateInstanceDetails(instance)">
+                </mat-form-field>
+            </div>
+          
+            <!-- Account -->
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Application Account</mat-label>
+                <input
+                    matInput
+                    [placeholder]="'root'"
+                    [(ngModel)]="instance.application_account"
+                    (input)="updateInstanceDetails(instance)">
+            </mat-form-field>
+
+            <!-- Configuration File -->
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Configuration File</mat-label>
+                <input
+                    matInput
+                    [placeholder]="'/etc/postgresql/13/main/postresql.conf'"
+                    [(ngModel)]="instance.configuration_file"
+                    (input)="updateInstanceDetails(instance)">
+            </mat-form-field>
+
+            <div class="flex flex-col ml-4">
+                <span class="font-semibold mb-2">Enabled</span>
+                <mat-slide-toggle
+                    [(ngModel)]="instance.enabled"
+                    [color]="'primary'">
+                </mat-slide-toggle>
+            </div>
+
+
+            <!-- Add Actions -->
+            <ng-container *ngIf="!instance._id">
+                <div class="flex items-center justify-end mt-4">
+                    <!-- Save -->
+                    <button
+                        mat-flat-button
+                        [color]="'primary'"
+                        [disabled]="!instance.name || !instance.database_type || !instance.port || !instance.server || !instance.database || !instance.privileged_account || !instance.privileged_account_password"
+                        (click)="createInstance(instance)">
+                        Save
+                    </button>
+                </div>
+            </ng-container>
+
+
+            <!-- Edit Actions -->
+            <ng-container *ngIf="instance._id">
+                <div class="flex items-center justify-between mt-4">
+                    <div class="flex items-center space-x-2">
+                        <!-- Delete -->
+                        <button
+                            mat-icon-button
+                            (click)="deleteInstance(instance)">
+                            <mat-icon [svgIcon]="'heroicons_outline:trash'"></mat-icon>
+                        </button>
+                    </div>
+                    <!-- Close -->
+                    <button
+                        mat-flat-button
+                        matDialogClose>
+                        Close
+                    </button>
+                </div>
+            </ng-container>
+        </div>
+    </ng-container>
+
+</div>
