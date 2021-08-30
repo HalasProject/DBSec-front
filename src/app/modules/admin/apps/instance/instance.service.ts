@@ -51,15 +51,16 @@ export class InstanceService
     /**
      * Get Instances
      */
-    getInstances(): Observable<any>
+    getInstances(search?): Observable<any>
     {
-        return this._httpClient.get<Instance[]>(`${env.apiUrl}/sections`).pipe(
+        let url = `${env.apiUrl}/sections`;
+        if (search) url += `?search=${search}`;
+        return this._httpClient.get<Instance[]>(url).pipe(
             tap((response) => {
                 this._instances.next(response.data);
             })
         );
     }
-
 
     /**
      * Get instance by id

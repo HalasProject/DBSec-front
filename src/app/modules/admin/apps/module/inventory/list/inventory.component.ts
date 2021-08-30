@@ -84,7 +84,7 @@ export class InventoryListComponent implements OnInit, AfterViewInit, OnDestroy
                 switchMap((query) => {
                     this.closeDetails();
                     this.isLoading = true;
-                    return this._inventoryService.getModules(0, 10, 'name', 'asc', query);
+                    return this._inventoryService.getModules(query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -126,7 +126,9 @@ export class InventoryListComponent implements OnInit, AfterViewInit, OnDestroy
                 switchMap(() => {
                     this.closeDetails();
                     this.isLoading = true;
-                    return this._inventoryService.getModules(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction,null);
+                    // return this._inventoryService.getModules(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction,null);
+
+                    return this._inventoryService.getModules(null);
                 }),
                 map(() => {
                     this.isLoading = false;

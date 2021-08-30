@@ -78,6 +78,6 @@ export class InventoryModulesResolver implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: InventoryPagination; products: InventoryModule[] }>
     {
-        return this._inventoryService.getModules(null,null,null,null,null);
+        return this._inventoryService.getModules();
     }
 }

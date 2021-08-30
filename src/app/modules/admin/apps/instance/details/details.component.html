@@ -103,6 +103,7 @@
             <div class="flex flex-col ml-4">
                 <span class="font-semibold mb-2">Enabled</span>
                 <mat-slide-toggle
+                    (change)="updateInstanceDetails(instance)"
                     [(ngModel)]="instance.enabled"
                     [color]="'primary'">
                 </mat-slide-toggle>

@@ -33,8 +33,9 @@ export const appRoutes: Route[] = [
         children   : [
             {path: 'dashboard', loadChildren: () => import('app/modules/admin/apps/dashboard/dashboard.module').then(m => m.DashboardModule)},
             {path: 'instances', loadChildren: () => import('app/modules/admin/apps/instance/instance.module').then(m => m.InstanceModule)},
-            {path: 'tests',     loadChildren: () => import('app/modules/admin/apps/module/module.module').then(m => m.ModuleModule)},
+            {path: 'modules',     loadChildren: () => import('app/modules/admin/apps/module/module.module').then(m => m.ModuleModule)},
             {path: 'historys',  loadChildren: () => import('app/modules/admin/apps/history/history.module').then(m => m.HistoryModule)},
+            {path: 'run',  loadChildren: () => import('app/modules/admin/apps/run/run.module').then(m => m.RunModule)},
         ]
     }
 ];

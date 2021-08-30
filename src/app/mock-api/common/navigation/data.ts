@@ -17,11 +17,18 @@ export const defaultNavigation: FuseNavigationItem[] = [
         link : '/instances'
     },
     {
-        id   : 'tests',
-        title: 'Tests',
+        id   : 'modules',
+        title: 'Modules',
         type : 'basic',
         icon : 'generating_tokens',
-        link : '/tests'
+        link : '/modules'
+    },
+    {
+        id   : 'run',
+        title: 'Run',
+        type : 'basic',
+        icon : 'mat_solid:play_circle',
+        link : '/run'
     },
     {
         id   : 'historys',
@@ -47,11 +54,18 @@ export const compactNavigation: FuseNavigationItem[] = [
         link : '/instances'
     },
     {
-        id   : 'tests',
-        title: 'Tests',
+        id   : 'modules',
+        title: 'Modules',
         type : 'basic',
         icon : 'generating_tokens',
-        link : '/tests'
+        link : '/modules'
+    },
+    {
+        id   : 'run',
+        title: 'Run',
+        type : 'basic',
+        icon : 'mat_solid:play_circle',
+        link : '/run'
     },
     {
         id   : 'historys',
@@ -77,11 +91,18 @@ export const futuristicNavigation: FuseNavigationItem[] = [
         link : '/instances'
     },
     {
-        id   : 'tests',
-        title: 'Tests',
+        id   : 'modules',
+        title: 'Modules',
         type : 'basic',
         icon : 'generating_tokens',
-        link : '/tests'
+        link : '/modules'
+    },
+    {
+        id   : 'run',
+        title: 'Run',
+        type : 'basic',
+        icon : 'mat_solid:play_circle',
+        link : '/run'
     },
     {
         id   : 'historys',
@@ -107,11 +128,18 @@ export const horizontalNavigation: FuseNavigationItem[] = [
         link : '/instances'
     },
     {
-        id   : 'tests',
-        title: 'Tests',
+        id   : 'modules',
+        title: 'Modules',
         type : 'basic',
         icon : 'generating_tokens',
-        link : '/tests'
+        link : '/modules'
+    },
+    {
+        id   : 'run',
+        title: 'Run',
+        type : 'basic',
+        icon : 'mat_solid:play_circle',
+        link : '/run'
     },
     {
         id   : 'historys',

@@ -3,7 +3,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import moment from 'moment';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { debounceTime, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { InstanceDetailsComponent } from './details/details.component';
 import { InstanceService } from './instance.service';
@@ -19,6 +19,8 @@ export class InstanceComponent
     instances$: Observable<Instance[]>;
     isLoading: boolean = false;
     searchInputControl: FormControl = new FormControl();
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
+
     /**
      * Constructor
      */
@@ -34,19 +36,19 @@ export class InstanceComponent
          this.instances$ = this._instanceService.instances$;
 
         //    // Subscribe to search input field value changes
-        // this.searchInputControl.valueChanges
-        // .pipe(
-        //     takeUntil(this._unsubscribeAll),
-        //     debounceTime(300),
-        //     switchMap((query) => {
-        //         this.isLoading = true;
-        //         // return this._inventoryService.getModules(0, 10, 'name', 'asc', query);
-        //     }),
-        //     map(() => {
-        //         this.isLoading = false;
-        //     })
-        // )
-        // .subscribe();
+        this.searchInputControl.valueChanges
+        .pipe(
+            takeUntil(this._unsubscribeAll),
+            debounceTime(300),
+            switchMap((query) => {
+                this.isLoading = true;
+                return this._instanceService.getInstances(query);
+            }),
+            map(() => {
+                this.isLoading = false;
+            })
+        )
+        .subscribe();
     }
 
     openDialog(instance: Instance){

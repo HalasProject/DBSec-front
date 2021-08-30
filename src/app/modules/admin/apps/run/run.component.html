@@ -1,0 +1,50 @@
+<div class="flex flex-col flex-auto min-w-0">
+      <!-- Loader -->
+      <div *ngIf="isLoading" class="absolute inset-x-0 bottom-0"><mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar></div>
+	<!-- Main -->
+	<div class="flex-auto p-6 sm:p-10">
+        
+		<!-- CONTENT GOES HERE -->
+		<div class="px-8 flex justify-center items-center">
+			<!-- Advanced search form -->
+			<form class="flex flex-col items-start w-full max-w-3xl mt-8 p-8 space-y-8 rounded-2xl shadow overflow-hidden bg-card" [formGroup]="testForm">
+				<ng-container *ngIf="instances$ | async as instances">
+					<!-- Instance -->
+
+					<mat-form-field  class="fuse-mat-no-subscript w-full placeholder-black placeholder-opacity-10">
+						<mat-label>Instance</mat-label>
+						<mat-select floatlLabel="never" ocused required [placeholder]="'Please select the instance connection'" (selectionChange)="getModulesByDB()" [formControlName]="'instance'">
+							<ng-container *ngFor="let instance of instances">
+								<mat-option [value]="instance">{{ instance.name }}</mat-option>
+							</ng-container>
+						</mat-select>
+					</mat-form-field>
+                    <ng-container *ngIf="instance">
+                        <mat-label>Modules</mat-label>
+                        <mat-selection-list [formControlName]="'modules_ids'" multiple #allModules class="max-h-96 overflow-y-auto border-2 rounded-md w-full">
+                            <ng-container *ngFor="let module of modules">
+                                <mat-list-option [value]="module._id" >
+                                    {{ module.title }}
+                                </mat-list-option>
+                            </ng-container>
+                           
+                        </mat-selection-list>
+    
+                        <div class="flex items-center space-x-8">
+                            <!-- In trash -->
+                            <mat-checkbox [color]="'primary'" (change)="selectAll($event.checked)"> Select all </mat-checkbox>
+                        </div>
+    
+                        <!-- Actions -->
+                        <div class="flex items-center justify-end w-full mt-8">
+                            <button (click)="reset()" type="button" mat-button>Reset</button>
+                            <button (click)="runTest()" class="ml-2" [color]="'primary'" type="button" mat-flat-button>Start</button>
+                        </div>
+                    </ng-container>
+                    
+				
+				</ng-container>
+			</form>
+		</div>
+	</div>
+</div>

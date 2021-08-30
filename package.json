@@ -35,6 +35,7 @@
         "@ngneat/transloco": "2.22.0",
         "apexcharts": "3.27.3",
         "crypto-js": "3.3.0",
+        "csv-writer": "^1.6.0",
         "highlight.js": "11.1.0",
         "lodash-es": "4.17.21",
         "moment": "2.29.1",
