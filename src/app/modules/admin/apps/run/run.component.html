@@ -21,7 +21,7 @@
 					</mat-form-field>
                     <ng-container *ngIf="instance">
                         <mat-label>Modules</mat-label>
-                        <mat-selection-list [formControlName]="'modules_ids'" multiple #allModules class="max-h-96 overflow-y-auto border-2 rounded-md w-full">
+                        <mat-selection-list [formControlName]="'modulesIds'" multiple #allModules class="max-h-96 overflow-y-auto border-2 rounded-md w-full">
                             <ng-container *ngFor="let module of modules">
                                 <mat-list-option [value]="module._id" >
                                     {{ module.title }}

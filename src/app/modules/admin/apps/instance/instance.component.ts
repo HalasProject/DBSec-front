@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import moment from 'moment';
@@ -14,7 +14,7 @@ import { Instance } from './instance.type';
     templateUrl  : './instance.component.html',
     encapsulation: ViewEncapsulation.None
 })
-export class InstanceComponent
+export class InstanceComponent implements OnInit
 {
     instances$: Observable<Instance[]>;
     isLoading: boolean = false;
@@ -26,12 +26,12 @@ export class InstanceComponent
      */
     constructor(
         private _httpClient: HttpClient,
-        private _instanceService:InstanceService,
-        private _matDialog:MatDialog)
+        private _instanceService: InstanceService,
+        private _matDialog: MatDialog)
     {
     }
 
-    ngOnInit(){
+    ngOnInit(): void{
          // Get the modules
          this.instances$ = this._instanceService.instances$;
 
@@ -51,7 +51,7 @@ export class InstanceComponent
         .subscribe();
     }
 
-    openDialog(instance: Instance){
+    openDialog(instance: Instance): void{
         console.log({instance});
         this._matDialog.open(InstanceDetailsComponent, {
             autoFocus: false,
@@ -70,7 +70,7 @@ export class InstanceComponent
      {
          return moment(date, moment.ISO_8601).fromNow();
      }
- 
+
      /**
       * Track by function for ngFor loops
       *
@@ -81,5 +81,5 @@ export class InstanceComponent
      {
          return item._id || index;
      }
- 
+
 }

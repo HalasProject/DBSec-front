@@ -13,11 +13,11 @@ import { InstancesResolver } from '../instance/instance.resolvers';
 import { FuseScrollbarModule } from '@fuse/directives/scrollbar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
-const RunRoutes: Route[] = [
+const runRoutes: Route[] = [
     {
         path     : '',
         component: RunComponent,
-        resolve: { 
+        resolve: {
             instances: InstancesResolver
         }
     }
@@ -28,7 +28,7 @@ const RunRoutes: Route[] = [
         RunComponent,
     ],
     imports     : [
-        RouterModule.forChild(RunRoutes),
+        RouterModule.forChild(runRoutes),
         MatButtonModule,
         MatCheckboxModule,
         MatFormFieldModule,

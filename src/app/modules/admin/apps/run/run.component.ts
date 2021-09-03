@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSelectionList } from '@angular/material/list';
 import { Observable, Subject } from 'rxjs';
@@ -15,30 +15,32 @@ import { RunService } from './run.service';
 	templateUrl: './run.component.html',
 	encapsulation: ViewEncapsulation.None,
 })
-export class RunComponent {
+export class RunComponent implements OnInit, OnDestroy{
+	@ViewChild('allModules') private allModules: MatSelectionList;
+
 	testForm: FormGroup;
-	selectAllChecked: boolean;
+	SelectAllChecked: boolean;
     instances$: Observable<Instance[]>;
+    isLoading: boolean;
+	modules: InventoryModule[];
+
 
 	private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-    isLoading:boolean;
-
-	modules:InventoryModule[];
-	@ViewChild('allModules') private allModules: MatSelectionList;
 	/**
 	 * Constructor
 	 */
-	constructor(private _formBuilder: FormBuilder,private _moduleService: InventoryService, private _runService: RunService, private _instanceService:InstanceService) {
+	constructor(private _formBuilder: FormBuilder,private _moduleService: InventoryService, private _runService: RunService, private _instanceService: InstanceService) {
 		// Prepare the search form with defaults
 		this.testForm = this._formBuilder.group({
 			instance: [],
-            modules_ids: []
+            modulesIds: []
 		});
 	}
 
+
 	ngOnInit(): void {
-        this.instances$ = this._instanceService.instances$.pipe(map(instances => instances.filter(instance => instance.enabled)));
+		this.instances$ = this._instanceService.instances$.pipe(map(instances => instances.filter(instance => instance.enabled)));
     }
 
 	/**
@@ -56,20 +58,20 @@ export class RunComponent {
 		}
 	}
 
-    getModulesByDB(){
-       this._moduleService.getModulesByDB(this.instance.database_type).subscribe((data => this.modules = data.data));
+    getModulesByDB(): void{
+		this._moduleService.getModulesByDB(this.instance.database_type).subscribe((data => this.modules = data.data));
     }
 
-    runTest(){
-        this.isLoading = true;
-        let body = {
-            instance_id : this.testForm.get('instance').value._id,
+    runTest(): void {
+		this.isLoading = true;
+        const body = {
+			instance_id : this.testForm.get('instance').value._id,
             modules_ids: this.testForm.get('modules_ids').value
-        }
-        this._runService.run(body).subscribe((data => {
-            console.log(data)
-            this.isLoading = false;  
-         } ));
+        };
+        this._runService.run(body).subscribe(((data) => {
+			console.log(data);
+            this.isLoading = false;
+		} ));
     }
 
 	/**
@@ -81,7 +83,8 @@ export class RunComponent {
 		this._unsubscribeAll.complete();
 	}
 
-	get instance():Instance | null {
+	get instance(): Instance | null {
 		return this.testForm.get('instance').value || null;
 	}
+
 }

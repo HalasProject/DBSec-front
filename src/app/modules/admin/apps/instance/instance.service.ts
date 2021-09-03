@@ -41,7 +41,7 @@ export class InstanceService
      {
          return this._instance.asObservable();
      }
- 
+
 
 
     // -----------------------------------------------------------------------------------------------------
@@ -54,7 +54,7 @@ export class InstanceService
     getInstances(search?): Observable<any>
     {
         let url = `${env.apiUrl}/instances`;
-        if (search) url += `?search=${search}`;
+        if (search) {url += `?search=${search}`;}
         return this._httpClient.get<Instance[]>(url).pipe(
             tap((response) => {
                 this._instances.next(response.data);
@@ -120,23 +120,23 @@ export class InstanceService
      */
     updateInstance(id: string, instance): Observable<any>
     {
-        if (!id) return of ([])
+        if (!id) {return of ([]);}
         return this.instances$.pipe(
                 take(1),
                 switchMap(instances => this._httpClient.put<Instance>(`${env.apiUrl}/instance/${id}`, {
                     ...{data:instance}
                 }).pipe(
                     map((updatedInstance) => {
-    
+
                         // Find the index of the updated module
                         const index = instances.findIndex(item => item._id === id);
-    
+
                         // Update the module
                         instances[index] = updatedInstance;
-    
+
                         // Update the module
                         this._instances.next(instances);
-    
+
                         // Return the updated module
                         return updatedInstance;
                     })

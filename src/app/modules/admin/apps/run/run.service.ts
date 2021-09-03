@@ -36,7 +36,7 @@ export class RunService {
 	 * Get modules
 	 */
 	run(body): Observable<any> {
-		let url = `${env.apiUrl}/runner`;
+		const url = `${env.apiUrl}/runner`;
 		return this._httpClient.post(url,body).pipe(
 			tap((response) => {
 				this._test.next(response.data);

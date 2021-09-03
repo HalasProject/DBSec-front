@@ -252,6 +252,6 @@ export class DashboardComponent implements OnInit, OnDestroy
                 tickAmount: 7
             }
         };
-       
+
     }
 }

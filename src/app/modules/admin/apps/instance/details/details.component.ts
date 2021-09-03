@@ -16,9 +16,9 @@ export class InstanceDetailsComponent implements OnInit, OnDestroy
     instance$: Observable<Instance>;
 
     instanceChanged: Subject<Instance> = new Subject<Instance>();
-    private _unsubscribeAll: Subject<any> = new Subject<any>();
-    Dialect = ['mysql','postgres','sqlite','mariadb','mssql'];
+    dialect = ['mysql','postgres','sqlite','mariadb','mssql'];
 
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
     /**
      * Constructor
      */
@@ -45,7 +45,7 @@ export class InstanceDetailsComponent implements OnInit, OnDestroy
         {
             // Request the data from the server
             this._instanceService.getInstanceById(this._data.instance._id).subscribe();
-            
+
             // Get the instance
             this.instance$ = this._instanceService.instance$;
 
@@ -54,16 +54,16 @@ export class InstanceDetailsComponent implements OnInit, OnDestroy
         else
         {
             // Create an empty note
-            const instance:Instance = {
-                name:"",
-                database_type: "",
-                server: "",
+            const instance: Instance = {
+                name:'',
+                database_type: '',
+                server: '',
                 port: 3306,
-                database: "",
-                privileged_account: "",
-                privileged_account_password: "",
-                application_account: "",
-                configuration_file: "",
+                database: '',
+                privileged_account: '',
+                privileged_account_password: '',
+                application_account: '',
+                configuration_file: '',
                 enabled: true,
             };
 
@@ -168,13 +168,5 @@ export class InstanceDetailsComponent implements OnInit, OnDestroy
     trackByFn(index: number, item: any): any
     {
         return item.id || index;
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Private methods
-    // -----------------------------------------------------------------------------------------------------
-
-    isValidForm(){
-        
     }
 }

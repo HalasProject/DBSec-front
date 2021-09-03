@@ -2,7 +2,7 @@
     "name": "dbsec",
     "version": "1.0.0",
     "description": "DBSec - Automate Security of Databases",
-    "author": "https://themeforest.net/user/srcn",
+    "author": "Salah Bentayeb",
     "license": "https://themeforest.net/licenses/standard",
     "private": true,
     "scripts": {
@@ -78,6 +78,7 @@
         "eslint-plugin-import": "2.23.4",
         "eslint-plugin-jsdoc": "36.0.6",
         "eslint-plugin-prefer-arrow": "1.2.3",
+        "eslint-plugin-snakecasejs": "^2.2.0",
         "jasmine-core": "3.8.0",
         "karma": "6.3.4",
         "karma-chrome-launcher": "3.1.0",

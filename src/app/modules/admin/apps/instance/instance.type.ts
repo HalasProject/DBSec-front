@@ -1,7 +1,7 @@
 export interface Instance
 {
-    _id?: string,
-    name:string,
+    _id?: string;
+    name: string;
     database_type: string;
     server: string;
     port: number;

@@ -25,8 +25,8 @@ export class InventoryListComponent implements OnInit, AfterViewInit, OnDestroy
 
     modules$: Observable<InventoryModule[]>;
 
-    Dialect = ['mysql','postgres','sqlite','mariadb','mssql'];
-    Categories = ['Information', 'Configuration', 'Privilege', 'User','System'];
+    dialect = ['mysql','postgres','sqlite','mariadb','mssql'];
+    categories = ['Information', 'Configuration', 'Privilege', 'User','System'];
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     pagination: InventoryPagination;
@@ -72,7 +72,7 @@ export class InventoryListComponent implements OnInit, AfterViewInit, OnDestroy
             enabled            : [false]
         });
 
-     
+
         // Get the modules
         this.modules$ = this._inventoryService.modules$;
 
@@ -188,7 +188,7 @@ export class InventoryListComponent implements OnInit, AfterViewInit, OnDestroy
     {
         this.selectedModule = null;
     }
-  
+
     /**
      * Create module
      */

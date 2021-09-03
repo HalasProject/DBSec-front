@@ -7,11 +7,11 @@ export interface InventoryModule
     result: {
         good: string;
         worst: string;
-    },
+    };
     database?: {
         type: string;
         version: string;
-    },
+    };
     category?: string;
     enabled?: boolean;
     readMore?: string;

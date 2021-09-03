@@ -37,7 +37,7 @@ export class InventoryService {
 	 */
 	getModules(search?): Observable<any> {
 		let url = `${env.apiUrl}/modules`;
-		if (search) url += `?search=${search}`
+		if (search) {url += `?search=${search}`;}
 		return this._httpClient.get<InventoryModule[]>(url).pipe(
 			tap((response) => {
 				this._modules.next(response.data);
@@ -52,8 +52,8 @@ export class InventoryService {
 	/**
 	 * Get modules
 	 */
-	getModulesByDB(DB): Observable<any> {
-		return this._httpClient.get<InventoryModule[]>(`${env.apiUrl}/modules?database=${DB}`).pipe(
+	getModulesByDB(database: string): Observable<any> {
+		return this._httpClient.get<InventoryModule[]>(`${env.apiUrl}/modules?database=${database}`).pipe(
 			tap((response) => {
 				this._modules.next(response.data);
 			})
@@ -68,7 +68,7 @@ export class InventoryService {
 			take(1),
 			map((modules) => {
 				// Find the module
-				const module = modules.find((item) => item._id === id) || null;
+				const module = modules.find(item => item._id === id) || null;
 
 				// Update the module
 				this._modules.next(modules);
@@ -92,7 +92,7 @@ export class InventoryService {
 	createModule(): Observable<InventoryModule> {
 		return this.modules$.pipe(
 			take(1),
-			switchMap((modules) =>
+			switchMap(modules =>
 				this._httpClient.post<InventoryModule>(`${env.apiUrl}/module`, {}).pipe(
 					map((newModule) => {
 						// Update the modules with the new module
@@ -115,7 +115,7 @@ export class InventoryService {
 	updateModule(id: string, module): Observable<any> {
 		return this.modules$.pipe(
 			take(1),
-			switchMap((modules) =>
+			switchMap(modules =>
 				this._httpClient
 					.put<InventoryModule>(`${env.apiUrl}/module/${id}`, {
 						...{ data: module },
@@ -123,7 +123,7 @@ export class InventoryService {
 					.pipe(
 						map((updatedModule) => {
 							// Find the index of the updated module
-							const index = modules.findIndex((item) => item._id === id);
+							const index = modules.findIndex(item => item._id === id);
 
 							// Update the module
 							modules[index] = updatedModule;
@@ -147,11 +147,11 @@ export class InventoryService {
 	deleteModule(id: string): Observable<boolean> {
 		return this.modules$.pipe(
 			take(1),
-			switchMap((modules) =>
+			switchMap(modules =>
 				this._httpClient.delete(`${env.apiUrl}/module/${id}`).pipe(
 					map((isDeleted: boolean) => {
 						// Find the index of the deleted module
-						const index = modules.findIndex((item) => item._id === id);
+						const index = modules.findIndex(item => item._id === id);
 
 						// Delete the module
 						modules.splice(index, 1);
