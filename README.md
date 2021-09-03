@@ -1,6 +1,10 @@
-# Fuse - Admin template and Starter project for Angular
+# DBSec API
+(TODO)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli)
+[![Dependency Status](https://david-dm.org/HalasProject/DBSec-api.svg)](https://david-dm.org/HalasProject/DBSec-front) 
+[![Build Status](https://app.travis-ci.com/HalasProject/DBSec-front.svg?token=ZnyTEz6pNWSzgVHyX9fm&branch=master)](https://app.travis-ci.com/HalasProject/DBSec-front)
+![image](https://i.ibb.co/HtWgk9H/Flowchart-4.jpg)
+
 
 ## Development server
 
