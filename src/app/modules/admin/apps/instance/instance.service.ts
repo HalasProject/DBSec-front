@@ -53,7 +53,7 @@ export class InstanceService
      */
     getInstances(search?): Observable<any>
     {
-        let url = `${env.apiUrl}/sections`;
+        let url = `${env.apiUrl}/instances`;
         if (search) url += `?search=${search}`;
         return this._httpClient.get<Instance[]>(url).pipe(
             tap((response) => {
@@ -99,7 +99,7 @@ export class InstanceService
     {
         return this.instances$.pipe(
             take(1),
-            switchMap(instances => this._httpClient.post<Instance>(`${env.apiUrl}/section`, instance ? {data:instance} : {}).pipe(
+            switchMap(instances => this._httpClient.post<Instance>(`${env.apiUrl}/instance`, instance ? {data:instance} : {}).pipe(
                 map((newInstance) => {
 
                     // Update the modules with the new module
@@ -123,7 +123,7 @@ export class InstanceService
         if (!id) return of ([])
         return this.instances$.pipe(
                 take(1),
-                switchMap(instances => this._httpClient.put<Instance>(`${env.apiUrl}/section/${id}`, {
+                switchMap(instances => this._httpClient.put<Instance>(`${env.apiUrl}/instance/${id}`, {
                     ...{data:instance}
                 }).pipe(
                     map((updatedInstance) => {
@@ -153,7 +153,7 @@ export class InstanceService
     {
         return this.instances$.pipe(
             take(1),
-            switchMap(instances => this._httpClient.delete(`${env.apiUrl}/section/${id}`).pipe(
+            switchMap(instances => this._httpClient.delete(`${env.apiUrl}/instance/${id}`).pipe(
                 map((isDeleted: boolean) => {
 
                     // Find the index of the deleted instance

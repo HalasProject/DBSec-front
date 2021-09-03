@@ -1,7 +1,7 @@
 {
-    "name": "@fuse/starter",
-    "version": "13.4.0",
-    "description": "Fuse - Angular Admin Template and Starter Project",
+    "name": "dbsec",
+    "version": "1.0.0",
+    "description": "DBSec - Automate Security of Databases",
     "author": "https://themeforest.net/user/srcn",
     "license": "https://themeforest.net/licenses/standard",
     "private": true,
