@@ -1,10 +1,28 @@
-# DBSec API
-(TODO)
 
-[![Dependency Status](https://david-dm.org/HalasProject/DBSec-api.svg)](https://david-dm.org/HalasProject/DBSec-front) 
-[![Build Status](https://app.travis-ci.com/HalasProject/DBSec-front.svg?token=ZnyTEz6pNWSzgVHyX9fm&branch=master)](https://app.travis-ci.com/HalasProject/DBSec-front)
-![image](https://i.ibb.co/HtWgk9H/Flowchart-4.jpg)
+<p align="center">
+<a href="https://app.getpostman.com/run-collection/5247189-c5ea517c-3e25-4026-b821-00171b99d3d7?action=collection%2Ffork&collection-url=entityId%3D5247189-c5ea517c-3e25-4026-b821-00171b99d3d7%26entityType%3Dcollection%26workspaceId%3De1fd0a0e-8321-49ad-b891-80644c511cce#?env%5BDBSec%5D=W3sia2V5IjoiYXBpX3VybCIsInZhbHVlIjoiaHR0cDovL2xvY2FsaG9zdDozMDAwL2FwaSIsImVuYWJsZWQiOnRydWV9XQ==">
+    <img alt="Run in Postman" src="https://run.pstmn.io/button.svg">
+</a>
+<br><br>
+<a href="https://david-dm.org/HalasProject/DBSec-front">
+    <img alt="Dependency Status" src="https://david-dm.org/HalasProject/DBSec-front.svg">
+</a>
 
+<a href="https://app.travis-ci.com/HalasProject/DBSec-front">
+    <img src="https://app.travis-ci.com/HalasProject/DBSec-front.svg?token=ZnyTEz6pNWSzgVHyX9fm&branch=master">
+</a>
+</p>
+
+# DBSec Web App
+DBSec is a web application framework for developers, database administrators, analysts and peoples working in IT security sector, it allows to prepare modules and run them on DBs (MySQL, SQLite, PostgreSQL , MSSQL, MariaDB) with the possibility of creating several instances.
+
+## Architecture
+
+DBSec is composed of two parts the client interface (Front) created with Angular & Typescript which consumes the API (Back) realized with NodeJS & Typescript, the data is stored in a document oriented database (mongoDB).
+
+<p align="center">
+ <img src="https://i.ibb.co/HtWgk9H/Flowchart-4.jpg">
+</p>
 
 ## Development server
 
