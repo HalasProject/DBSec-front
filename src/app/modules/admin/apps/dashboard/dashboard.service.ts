@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-
+import { environment as env } from 'environments/environment';
 @Injectable({
     providedIn: 'root'
 })
@@ -38,7 +38,7 @@ export class DashboardService
      */
     getData(): Observable<any>
     {
-        return this._httpClient.get('api/dashboards/project').pipe(
+        return this._httpClient.get(`${env.apiUrl}/statistique`).pipe(
             tap((response: any) => {
                 this._data.next(response);
             })

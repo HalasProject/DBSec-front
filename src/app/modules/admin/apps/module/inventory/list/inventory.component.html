@@ -238,7 +238,7 @@
                                         <mat-form-field formGroupName="database" class="w-full">
                                             <mat-label>Database</mat-label>
                                             <mat-select formControlName="type">
-                                                <ng-container *ngFor="let db of Dialect">
+                                                <ng-container *ngFor="let db of dialect">
                                                     <mat-option [value]="db">
                                                         {{db}}
                                                     </mat-option>

@@ -14,21 +14,22 @@
                             <mat-icon
                                 class="icon-size-5"
                                 [svgIcon]="'heroicons_solid:bell'"></mat-icon>
-                            <div class="ml-1.5 leading-6 truncate text-secondary">Last test was carried out beyond <b>23 hours ago</b></div>
+                            <div class="ml-1.5 leading-6 truncate text-secondary">Last test was carried out beyond <b>{{formatDateAsRelative(data.lastTestTime)}}</b></div>
                         </div>
                     </div>
                 </div>
                 <!-- Actions -->
                 <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
-                    <button
+                    <a
                         class="fuse-mat-button-rounded bg-accent-700"
                         mat-flat-button
+                        [routerLink]="['/run']"
                         [color]="'accent'">
                         <mat-icon
                             class="icon-size-5"
                             [svgIcon]="'feather:play'"></mat-icon>
                         <span class="ml-2">Run</span>
-                    </button>
+                    </a>
                     <button
                         class="fuse-mat-button-rounded"
                         mat-flat-button
@@ -69,12 +70,12 @@
                             </div>
                         </div>
                         <div class="flex flex-col items-center mt-2">
-                            <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500">21</div>
-                            <div class="text-lg font-medium text-blue-600 dark:text-blue-500">Due Tasks</div>
+                            <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500">{{data.instancesTotal}}</div>
+                            <!-- <div class="text-lg font-medium text-blue-600 dark:text-blue-500">Due Tasks</div>
                             <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
                                 <div class="text-md font-medium truncate">Completed:</div>
                                 <div class="ml-1.5 text-lg font-semibold">13</div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <!-- Modules -->
@@ -97,12 +98,12 @@
                             </div>
                         </div>
                         <div class="flex flex-col items-center mt-2">
-                            <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-red-500">17</div>
-                            <div class="text-lg font-medium text-red-600 dark:text-red-500">Tasks</div>
+                            <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-red-500">{{data.modulesTotal}}</div>
+                            <!-- <div class="text-lg font-medium text-red-600 dark:text-red-500">Tasks</div>
                             <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
                                 <div class="text-md font-medium truncate">From yesterday:</div>
                                 <div class="ml-1.5 text-lg font-semibold">9</div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <!-- Tests -->
@@ -125,12 +126,12 @@
                             </div>
                         </div>
                         <div class="flex flex-col items-center mt-2">
-                            <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-amber-500">24</div>
-                            <div class="text-lg font-medium text-amber-600 dark:text-amber-500">Open</div>
+                            <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-amber-500">{{data.testsTotal}}</div>
+                            <!-- <div class="text-lg font-medium text-amber-600 dark:text-amber-500">Open</div>
                             <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
                                 <div class="text-md font-medium truncate">Closed today:</div>
                                 <div class="ml-1.5 text-lg font-semibold">19</div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -146,27 +147,27 @@
                         <div class="flex flex-col flex-auto mt-6">
                             <apx-chart
                                 class="flex-auto w-full h-80"
-                                [chart]="chartTaskDistribution.chart"
-                                [labels]="chartTaskDistribution.labels"
-                                [legend]="chartTaskDistribution.legend"
-                                [plotOptions]="chartTaskDistribution.plotOptions"
-                                [series]="chartTaskDistribution.series['this-week']"
-                                [states]="chartTaskDistribution.states"
-                                [stroke]="chartTaskDistribution.stroke"
-                                [theme]="chartTaskDistribution.theme"
-                                [tooltip]="chartTaskDistribution.tooltip"
-                                [yaxis]="chartTaskDistribution.yaxis"></apx-chart>
+                                [chart]="chartTestDistribution.chart"
+                                [labels]="chartTestDistribution.labels"
+                                [legend]="chartTestDistribution.legend"
+                                [plotOptions]="chartTestDistribution.plotOptions"
+                                [series]="chartTestDistribution.series"
+                                [states]="chartTestDistribution.states"
+                                [stroke]="chartTestDistribution.stroke"
+                                [theme]="chartTestDistribution.theme"
+                                [tooltip]="chartTestDistribution.tooltip"
+                                [yaxis]="chartTestDistribution.yaxis"></apx-chart>
                         </div>
                         <div class="grid grid-cols-2 border-t divide-x -m-6 mt-4 bg-gray-50 dark:bg-transparent">
                             <div class="flex flex-col items-center justify-center p-6 sm:p-8">
                                 <div class="text-5xl font-semibold leading-none tracking-tighter">
-                                    {{data.taskDistribution.overview['this-week']['new']}}
+                                    <!-- {{data.taskDistribution.overview['this-week']['new']}} -->
                                 </div>
                                 <div class="mt-1 text-center text-secondary">New tasks</div>
                             </div>
                             <div class="flex flex-col items-center justify-center p-6 sm:p-8">
                                 <div class="text-5xl font-semibold leading-none tracking-tighter">
-                                    {{data.taskDistribution.overview['this-week']['completed']}}
+                                    <!-- {{data.taskDistribution.overview['this-week']['completed']}} -->
                                 </div>
                                 <div class="mt-1 text-center text-secondary">Completed tasks</div>
                             </div>
@@ -178,16 +179,16 @@
                         <div class="flex flex-col flex-auto">
                             <apx-chart
                                 class="flex-auto w-full h-80"
-                                [chart]="chartBudgetDistribution.chart"
-                                [colors]="chartBudgetDistribution.colors"
-                                [dataLabels]="chartBudgetDistribution.dataLabels"
-                                [markers]="chartBudgetDistribution.markers"
-                                [plotOptions]="chartBudgetDistribution.plotOptions"
-                                [series]="chartBudgetDistribution.series"
-                                [stroke]="chartBudgetDistribution.stroke"
-                                [tooltip]="chartBudgetDistribution.tooltip"
-                                [xaxis]="chartBudgetDistribution.xaxis"
-                                [yaxis]="chartBudgetDistribution.yaxis"></apx-chart>
+                                [chart]="chartModuleDistribution.chart"
+                                [colors]="chartModuleDistribution.colors"
+                                [dataLabels]="chartModuleDistribution.dataLabels"
+                                [markers]="chartModuleDistribution.markers"
+                                [plotOptions]="chartModuleDistribution.plotOptions"
+                                [series]="chartModuleDistribution.series"
+                                [stroke]="chartModuleDistribution.stroke"
+                                [tooltip]="chartModuleDistribution.tooltip"
+                                [xaxis]="chartModuleDistribution.xaxis"
+                                [yaxis]="chartModuleDistribution.yaxis"></apx-chart>
                         </div>
                     </div>
                 </div>

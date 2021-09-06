@@ -60,10 +60,10 @@ export const project = {
                 'completed': 260
             }
         },
-        labels  : ['API', 'Backend', 'Frontend', 'Issues'],
+        labels  : ['MySQL', 'MSSQL', 'PostgreSQL', 'SQLite','MariaDB'],
         series  : {
-            'this-week': [15, 20, 38, 27],
-            'last-week': [19, 16, 42, 23]
+            'this-week': [15, 20, 38, 27, 50],
+            'last-week': [19, 16, 42, 23, 40]
         }
     },
     schedule          : {
@@ -137,10 +137,10 @@ export const project = {
         ]
     },
     budgetDistribution: {
-        categories: ['Concept', 'Design', 'Development', 'Extras', 'Marketing'],
+        categories: ['MSSQL', 'MariaDB', 'SQLite', 'PostgreSQL', 'MySQL'],
         series    : [
             {
-                name: 'Budget',
+                name: 'Total',
                 data: [12, 20, 28, 15, 25]
             }
         ]
@@ -203,7 +203,7 @@ export const project = {
         rows   : [
             {
                 id                 : 1,
-                type               : 'Concept',
+                type               : 'MySQL',
                 total              : 14880,
                 expensesAmount     : 14000,
                 expensesPercentage : 94.08,
@@ -212,7 +212,7 @@ export const project = {
             },
             {
                 id                 : 2,
-                type               : 'Design',
+                type               : 'SQLite',
                 total              : 21080,
                 expensesAmount     : 17240.34,
                 expensesPercentage : 81.78,
@@ -221,7 +221,7 @@ export const project = {
             },
             {
                 id                 : 3,
-                type               : 'Development',
+                type               : 'MariaDB',
                 total              : 34720,
                 expensesAmount     : 3518,
                 expensesPercentage : 10.13,
@@ -230,7 +230,7 @@ export const project = {
             },
             {
                 id                 : 4,
-                type               : 'Extras',
+                type               : 'PostgreSQL',
                 total              : 18600,
                 expensesAmount     : 0,
                 expensesPercentage : 0,
@@ -239,7 +239,7 @@ export const project = {
             },
             {
                 id                 : 5,
-                type               : 'Marketing',
+                type               : 'MSSQL',
                 total              : 34720,
                 expensesAmount     : 19859.84,
                 expensesPercentage : 57.2,

@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ApexOptions } from 'ng-apexcharts';
 import { DashboardService } from './dashboard.service';
+import moment from 'moment';
 
 @Component({
     selector       : 'dashboard',
@@ -13,9 +14,9 @@ import { DashboardService } from './dashboard.service';
 })
 export class DashboardComponent implements OnInit, OnDestroy
 {
-    chartGithubIssues: ApexOptions = {};
-    chartTaskDistribution: ApexOptions = {};
-    chartBudgetDistribution: ApexOptions = {};
+
+    chartTestDistribution: ApexOptions = {};
+    chartModuleDistribution: ApexOptions = {};
     data: any;
     selectedProject: string = 'ACME Corp. Backend App';
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -28,6 +29,17 @@ export class DashboardComponent implements OnInit, OnDestroy
         private _router: Router
     )
     {
+          // Get the data
+          this._dashboardService.data$
+          .pipe(takeUntil(this._unsubscribeAll))
+          .subscribe((data) => {
+
+              // Store the data
+              this.data = data;
+
+              // Prepare the chart data
+              this._prepareChartData();
+          });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -39,18 +51,6 @@ export class DashboardComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        // Get the data
-        this._dashboardService.data$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((data) => {
-
-                // Store the data
-                this.data = data;
-
-                // Prepare the chart data
-                this._prepareChartData();
-            });
-
         // Attach SVG fill fixer to all ApexCharts
         window['Apex'] = {
             chart: {
@@ -91,6 +91,16 @@ export class DashboardComponent implements OnInit, OnDestroy
         return item.id || index;
     }
 
+    /**
+     * Format the given ISO_8601 date as a relative date
+     *
+     * @param date
+     */
+    formatDateAsRelative(date: string): string
+    {
+        return moment(date, moment.ISO_8601).fromNow();
+    }
+
     // -----------------------------------------------------------------------------------------------------
     // @ Private methods
     // -----------------------------------------------------------------------------------------------------
@@ -128,8 +138,8 @@ export class DashboardComponent implements OnInit, OnDestroy
      */
     private _prepareChartData(): void
     {
-        // Task distribution
-        this.chartTaskDistribution = {
+        // Module distribution
+        this.chartTestDistribution = {
             chart      : {
                 fontFamily: 'inherit',
                 foreColor : 'inherit',
@@ -142,7 +152,7 @@ export class DashboardComponent implements OnInit, OnDestroy
                     enabled: false
                 }
             },
-            labels     : this.data.taskDistribution.labels,
+            labels     : this.data.testsDistribution.map(test => test.database),
             legend     : {
                 position: 'bottom'
             },
@@ -156,7 +166,7 @@ export class DashboardComponent implements OnInit, OnDestroy
                     }
                 }
             },
-            series     : this.data.taskDistribution.series,
+            series  : this.data.testsDistribution.map(test => test.total),
             states     : {
                 hover: {
                     filter: {
@@ -189,8 +199,8 @@ export class DashboardComponent implements OnInit, OnDestroy
             }
         };
 
-        // Budget distribution
-        this.chartBudgetDistribution = {
+        // Tests distribution
+        this.chartModuleDistribution = {
             chart      : {
                 fontFamily: 'inherit',
                 foreColor : 'inherit',
@@ -227,7 +237,12 @@ export class DashboardComponent implements OnInit, OnDestroy
                     }
                 }
             },
-            series     : this.data.budgetDistribution.series,
+            series     : [
+                {
+                    name: 'Total',
+                    data:   this.data.moduleDistribution.map(module => module.count)
+                }
+            ],
             stroke     : {
                 width: 2
             },
@@ -245,13 +260,13 @@ export class DashboardComponent implements OnInit, OnDestroy
                         fontWeight: '500'
                     }
                 },
-                categories: this.data.budgetDistribution.categories
+                categories: this.data.moduleDistribution.map(module => module._id)
             },
             yaxis      : {
                 max       : (max: number): number => parseInt((max + 10).toFixed(0), 10),
                 tickAmount: 7
             }
         };
-
     }
+
 }
