@@ -36,7 +36,6 @@ export class DashboardComponent implements OnInit, OnDestroy
 
               // Store the data
               this.data = data;
-
               // Prepare the chart data
               this._prepareChartData();
           });
