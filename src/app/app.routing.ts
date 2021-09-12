@@ -35,6 +35,7 @@ export const appRoutes: Route[] = [
             {path: 'instances', loadChildren: () => import('app/modules/admin/apps/instance/instance.module').then(m => m.InstanceModule)},
             {path: 'modules',     loadChildren: () => import('app/modules/admin/apps/module/module.module').then(m => m.ModuleModule)},
             {path: 'historys',  loadChildren: () => import('app/modules/admin/apps/history/history.module').then(m => m.HistoryModule)},
+            {path: 'test',  loadChildren: () => import('app/modules/admin/apps/test/test.module').then(m => m.TestModule)},
             {path: 'run',  loadChildren: () => import('app/modules/admin/apps/run/run.module').then(m => m.RunModule)},
         ]
     }

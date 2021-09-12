@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSelectionList } from '@angular/material/list';
+import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { InstanceService } from '../instance/instance.service';
@@ -15,33 +16,39 @@ import { RunService } from './run.service';
 	templateUrl: './run.component.html',
 	encapsulation: ViewEncapsulation.None,
 })
-export class RunComponent implements OnInit, OnDestroy{
+export class RunComponent implements OnInit, OnDestroy {
 	@ViewChild('allModules') private allModules: MatSelectionList;
 
 	testForm: FormGroup;
 	SelectAllChecked: boolean;
-    instances$: Observable<Instance[]>;
-    isLoading: boolean;
+	instances$: Observable<Instance[]>;
+	isLoading: boolean;
 	modules: InventoryModule[];
-
 
 	private _unsubscribeAll: Subject<any> = new Subject<any>();
 
 	/**
 	 * Constructor
 	 */
-	constructor(private _formBuilder: FormBuilder,private _moduleService: InventoryService, private _runService: RunService, private _instanceService: InstanceService) {
+	constructor(
+		private _router: Router,
+		private _formBuilder: FormBuilder,
+		private _moduleService: InventoryService,
+		private _runService: RunService,
+		private _instanceService: InstanceService
+	) {
 		// Prepare the search form with defaults
 		this.testForm = this._formBuilder.group({
 			instance: [],
-            modulesIds: []
+			modulesIds: [],
 		});
 	}
 
-
 	ngOnInit(): void {
-		this.instances$ = this._instanceService.instances$.pipe(map(instances => instances.filter(instance => instance.enabled)));
-    }
+		this.instances$ = this._instanceService.instances$.pipe(
+			map(instances => instances.filter(instance => instance.enabled))
+			);
+	}
 
 	/**
 	 * Reset the search form using the default
@@ -58,21 +65,22 @@ export class RunComponent implements OnInit, OnDestroy{
 		}
 	}
 
-    getModulesByDB(): void{
-		this._moduleService.getModulesByDB(this.instance.database_type).subscribe((data => this.modules = data.data));
-    }
+	getModulesByDB(): void {
+		this._moduleService.getModulesByDB(this.instance.database_type).subscribe(data => this.modules = data.data);
+	}
 
-    runTest(): void {
+	runTest(): void {
 		this.isLoading = true;
-        const body = {
-			instance_id : this.testForm.get('instance').value._id,
-            modules_ids: this.testForm.get('modules_ids').value
-        };
-        this._runService.run(body).subscribe(((data) => {
-			console.log(data);
-            this.isLoading = false;
-		} ));
-    }
+		const body = {
+			instance_id: this.testForm.get('instance').value._id,
+			modules_ids: this.testForm.get('modulesIds').value,
+		};
+		this._runService.run(body).subscribe((data) => {
+			this.isLoading = false;
+			this._router.navigate(['historys']);
+			return;
+		});
+	}
 
 	/**
 	 * On destroy
@@ -86,5 +94,4 @@ export class RunComponent implements OnInit, OnDestroy{
 	get instance(): Instance | null {
 		return this.testForm.get('instance').value || null;
 	}
-
 }

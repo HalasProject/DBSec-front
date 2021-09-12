@@ -1,14 +1,42 @@
 <div class="flex flex-col flex-auto min-w-0">
+	<!-- Main -->
+	<div class="flex-auto p-6 sm:p-10">
+		<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full min-w-0">
+			<ng-container *ngIf="tests$ | async as tests">
+				<ng-container *ngIf="tests.length > 0; else noTests">
+					<ng-container *ngFor="let test of tests; trackBy: trackByFn">
+						<div class="flex flex-col flex-auto items-center bg-card shadow rounded-2xl overflow-hidden">
+							<!-- Avatar & Info -->
+							<div class="flex flex-col flex-auto w-full p-8 text-center">
+								<div class="w-32 h-32 mx-auto overflow-hidden">
+									<img class="w-full h-full object-contain" [src]="'assets/images/databases/' + test.database + '.png'" />
+								</div>
+								<div>
+									<div class="mt-6 font-medium">Tests numbers: {{ test.count }}</div>
+									<div class="font-medium">{{ test.instanceName }}</div>
+									<div class="text-secondary">{{ formatDateAsRelative(test.created_at) }}</div>
+								</div>
+							</div>
+							<!-- Email & Phone -->
+							<div class="flex items-center w-full border-t divide-x">
+								<a [routerLink]="['/test/',test._id]"class="flex flex-auto cursor-pointer items-center justify-center py-4 hover:bg-hover">
+									<mat-icon class="icon-size-5 text-hint" [svgIcon]="'remove_red_eye'"></mat-icon>
+									<span class="ml-2">Show</span>
+								</a>
+								<a (click)="deleteByUUID(test._id)" class="flex flex-auto cursor-pointer items-center justify-center py-4 hover:bg-hover">
+									<mat-icon class="icon-size-5 text-hint" [svgIcon]="'delete'"></mat-icon>
+									<span class="ml-2">Delete</span>
+								</a>
+							</div>
+						</div>
+					</ng-container>
+				</ng-container>
+			</ng-container>
+		</div>
+	</div>
 
-    <!-- Main -->
-    <div class="flex-auto p-6 sm:p-10">
-
-        <!-- CONTENT GOES HERE -->
-        <div class="h-400 min-h-400 max-h-400 border-2 border-dashed border-gray-300 rounded-2xl">
-            
-            <p>history works!</p>
-        </div>
-        
-    </div>
-
+	<!-- No contacts -->
+	<ng-template #noTests>
+		<div class="p-8 sm:p-16 w-full border-t text-4xl font-semibold tracking-tight text-center">There are no Tests!</div>
+	</ng-template>
 </div>
